@@ -1,21 +1,48 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <style>
+    #chat-interface { display: none; }
+    #login-interface { text-align: center; margin-top: 50px; }
+  </style>
+</head>
 <body>
-  <ul id="messages"></ul>
-  <form id="form">
-    <input id="input" autocomplete="off" />
-    <button>Envoyer</button>
-  </form>
 
-  <div style="margin-top: 20px; text-align: center;">
-    <a href="https://meet.jit.si/WolfChatVideo" target="_blank" style="padding: 10px 20px; background-color: #ff4757; color: white; text-decoration: none; border-radius: 5px;">
-        Rejoindre le salon vidéo
-    </a>
+  <!-- Écran de connexion -->
+  <div id="login-interface">
+    <h3>Bienvenue sur Wolf-chat</h3>
+    <input id="username" placeholder="Entre ton pseudo..." />
+    <button onclick="startChat()">Entrer dans le chat</button>
+  </div>
+
+  <!-- Interface du chat (cachée au début) -->
+  <div id="chat-interface">
+    <ul id="messages"></ul>
+    <form id="form">
+      <input id="input" autocomplete="off" />
+      <button>Envoyer</button>
+    </form>
+    <div style="margin-top: 20px; text-align: center;">
+      <a href="https://meet.jit.si/WolfChatVideo" target="_blank" style="padding: 10px 20px; background-color: #ff4757; color: white; text-decoration: none; border-radius: 5px;">
+          Rejoindre le salon vidéo
+      </a>
+    </div>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
+    let myName = "";
+
+    function startChat() {
+      const nameInput = document.getElementById('username').value;
+      if (nameInput) {
+        myName = nameInput;
+        document.getElementById('login-interface').style.display = 'none';
+        document.getElementById('chat-interface').style.display = 'block';
+      }
+    }
+
     const form = document.getElementById('form');
     const input = document.getElementById('input');
     const messages = document.getElementById('messages');
@@ -23,7 +50,7 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (input.value) {
-        socket.emit('chat message', input.value);
+        socket.emit('chat message', myName + ": " + input.value);
         input.value = '';
       }
     });
