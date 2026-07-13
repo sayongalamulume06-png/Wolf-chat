@@ -2,16 +2,17 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const path = require('path');
 
-app.get('/', (req, res) => {
-  res.send('<h1>Chat de loup en ligne !</h1>');
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
-  console.log('Un utilisateur est connecté');
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
 });
 
 const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => {
-  console.log(`Serveur actif sur le port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
