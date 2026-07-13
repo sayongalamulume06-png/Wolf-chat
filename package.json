@@ -1,5 +1,5 @@
 {
-  "name": "wolf-chat",
+  "name": "chat-loup",
   "version": "1.0.0",
   "description": "Chat de loup",
   "main": "server.js",
