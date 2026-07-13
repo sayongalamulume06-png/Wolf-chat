@@ -16,3 +16,8 @@ const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+<div style="margin-top: 20px; text-align: center;">
+    <a href="https://meet.jit.si/WolfChatVideo" target="_blank" style="padding: 10px 20px; background-color: #ff4757; color: white; text-decoration: none; border-radius: 5px;">
+        Rejoindre le salon vidéo
+    </a>
+</div>
