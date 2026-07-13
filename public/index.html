@@ -1,45 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Wolf-chat</title>
-    <style>
-        body { font-family: sans-serif; display: flex; flex-direction: column; height: 90vh; }
-        #messages { flex: 1; overflow-y: auto; border: 1px solid #ccc; padding: 10px; }
-        #form { display: flex; }
-        input { flex: 1; padding: 10px; }
-        button { padding: 10px; }
-    </style>
-</head>
 <body>
-    <div id="messages"></div>
-    <form id="form">
-        <input id="input" autocomplete="off" placeholder="Tape ton message..." /><button>Envoyer</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        const form = document.getElementById('form');
-        const input = document.getElementById('input');
-        const messages = document.getElementById('messages');
+  <ul id="messages"></ul>
+  <form id="form">
+    <input id="input" autocomplete="off" />
+    <button>Envoyer</button>
+  </form>
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (input.value) {
-                socket.emit('chat message', input.value);
-                input.value = '';
-            }
-        });
-
-        socket.on('chat message', (msg) => {
-            const item = document.createElement('div');
-            item.textContent = msg;
-            messages.appendChild(item);
-        });
-    </script>
-</body>
-</html>
-<div style="margin-top: 20px; text-align: center;">
+  <div style="margin-top: 20px; text-align: center;">
     <a href="https://meet.jit.si/WolfChatVideo" target="_blank" style="padding: 10px 20px; background-color: #ff4757; color: white; text-decoration: none; border-radius: 5px;">
         Rejoindre le salon vidéo
     </a>
-</div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (input.value) {
+        socket.emit('chat message', input.value);
+        input.value = '';
+      }
+    });
+
+    socket.on('chat message', (msg) => {
+      const item = document.createElement('li');
+      item.textContent = msg;
+      messages.appendChild(item);
+    });
+  </script>
+</body>
+</html>
